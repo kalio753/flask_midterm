@@ -3,8 +3,11 @@
       background-color: #212121
     }
 </style>
-<!-- sell form -->
-<div class="modal fade" id="Modal-SellConfirm-{{ owned_item.item_id }}"
+  
+
+  
+<!-- Purchase Confirm -->
+<div class="modal fade" id="Modal-PurchaseConfirm-{{ item.student_id }}"
      tabindex="-1"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -12,7 +15,7 @@
       <div class="modal-header">
         <h5 class="modal-title" id="ModalLabel">
           <!-- -->
-            Sell
+            Purchase
         </h5>
         <button type="button" class="close"
                 data-dismiss="modal" aria-label="Close">
@@ -20,18 +23,18 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="" method="POST">
-          {{ sellForm.hidden_tag() }}
+        <form action="{{ url_for('main.purchase') }}" method="POST">         <!--aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-->
+          {{ purchaseForm.hidden_tag() }}
           <h4 class="text-center">
-            Are you sure you want to sell <b>{{ owned_item.item_name }}</b> for <b>{{ owned_item.item_price }}$</b> ?
+            Are you sure you want to buy <b>{{ item.student_name }}</b> for <b>{{ item.student_price }}$</b> ?
           </h4>
           <br>
           <h6 class="text-center">
-            Click <b>Sell</b> to sell this product
+            Click <b>Purchase</b> to buy this product
           </h6>
 
-          <input type="hidden" id="sold_item" name="sold_item" value="{{ owned_item.item_name }}">
-          {{ sellForm.submit(class="btn btn-block btn-danger") }}
+          <input type="hidden" id="purchased_item" name="purchased_item" value="{{ item.student_id }}">
+          {{ purchaseForm.submitPurchase(class="btn btn-block btn-success") }}
         </form>
       </div>
       <div class="modal-footer">

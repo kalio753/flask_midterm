@@ -1,11 +1,13 @@
-from cProfile import label
-import email
-from xml.dom import ValidationErr
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
-from .models import User
+from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError, Regexp
+from ..models import User
+import re
 
+class LoginForm(FlaskForm):
+    username = StringField(label='Username:', validators=[DataRequired()])
+    password = PasswordField(label='Password:', validators=[DataRequired()])
+    submit = SubmitField(label='Log In')
 
 class RegisterForm(FlaskForm):
     def validate_username(self,username_to_check):
@@ -18,7 +20,9 @@ class RegisterForm(FlaskForm):
         if email:
             raise ValidationError('Email already exists')
 
-    username = StringField(label='Username:', validators=[Length(min=2, max=30), DataRequired()])
+    username = StringField('Username', validators=[DataRequired(), Length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
+               'Usernames must have only letters, numbers, dots or '
+               'underscores')])
     fullname = StringField(label='Full Name:', validators=[Length(min=2, max=40), DataRequired()])      
     email = StringField(label='Email:',  validators=[Email(),  DataRequired()])
     phone = StringField(label='Phone Number:', validators=[Length(min=8, max=12), DataRequired()])      
@@ -27,20 +31,6 @@ class RegisterForm(FlaskForm):
     #check password có giống nhau không ở đây
     submit = SubmitField(label='Sign Up')
 
-class LoginForm(FlaskForm):
-    username = StringField(label='Username:', validators=[DataRequired()])
-    password = PasswordField(label='Password:', validators=[DataRequired()])
-    submit = SubmitField(label='Log In')
-
-class PurchaseForm(FlaskForm):
-    submit = SubmitField(label='Purchase')
-
-# class SellForm(FlaskForm):
-#     submit = SubmitField(label='Sell')
-
-class AddForm(FlaskForm):
-    fullname = StringField(label='Student Name:', validators=[DataRequired()])
-    studentID = StringField(label='Student ID:', validators=[DataRequired()])
-    price = StringField(label='Price:', validators=[DataRequired()])
-    submit = SubmitField(label='Add')
-
+    def validate_phone(self, field):
+        if field.data.isnumeric() == False:
+            raise ValidationError('Phone number can only contains number.')

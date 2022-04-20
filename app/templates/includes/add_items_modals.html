@@ -20,7 +20,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="" method="POST">      
+          <form action="{{ url_for('main.add') }}" method="POST">               <!--aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-->
             <!-- này là bắt buộc nếu muốn trong routes.py hoaajt động -->
             {{ addForm.studentID.label() }}      
             {{ addForm.studentID(class="form-control", placeholder='Enter Your Student ID') }}
@@ -32,7 +32,7 @@
             {{ addForm.price(class="form-control", placeholder='Enter Your Email Address') }}
             <br>
             <input type="hidden" id="add_item" name="add_item" value="">
-            {{ addForm.submit(class="btn btn-lg btn-block btn-success") }}
+            {{ addForm.submitAdd(class="btn btn-lg btn-block btn-success") }}
           </form>
         </div>
         <div class="modal-footer">
