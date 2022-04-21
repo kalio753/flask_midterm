@@ -21,16 +21,16 @@ def add():
     if request.method == 'POST':
         student_to_add = Student.query.filter_by(student_id=addForm.studentID.data).first()
         if student_to_add:
-            flash('This item already existed !!', category='danger')
+            flash('This student already existed !!', category='danger')
         elif (addForm.price.data.isnumeric() == False):
-            flash('Please enter a right price !!', category='danger')
+            flash('Please enter a correct price format !!', category='danger')
         else:
             add_student = Student(student_id=addForm.studentID.data,
                             student_name=addForm.fullname.data,
                             student_price=addForm.price.data)
             db.session.add(add_student)
             db.session.commit()
-            flash(f'{addForm.studentID.data} is added to the board !!' , category='success')
+            flash(f'Student {addForm.studentID.data} is added to the board !!' , category='success')
     return redirect(url_for('main.ibanking_page'))
 
 @main.route('/purchase', methods=['POST'])
@@ -38,7 +38,7 @@ def add():
 def purchase():
     if request.method == 'POST':
         if current_user.user_status == False:
-            flash("Another transaction is being executed at the moment. Please try again later", category='info')
+            flash("Another transaction is being executed at the moment. Please try again later !!", category='info')
         else:
         # Purchase function
             purchased_item = request.form.get('purchased_item')      #này chỉ lấy tên của item được bấm mua (đọc cục cmt dưới)(này là id trong file html)

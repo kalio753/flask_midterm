@@ -94,7 +94,7 @@ class Student(db.Model):
             self.student_date = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
             user.user_budget -= self.student_price
             db.session.commit()
-            flash(f"Congratulations! You just paid {self.student_id} tuition for {self.student_price}$", category='success')
+            flash(f"Congratulations! You just paid {self.student_id}'s tuition for {self.student_price}$", category='success')
             return True
         else:
             flash(f'Already paid by another user.' , category='danger')
